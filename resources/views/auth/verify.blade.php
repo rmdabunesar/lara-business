@@ -3,7 +3,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Log In Page</title>
+        <title>Verification Page</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc."/>
         <meta name="author" content="Zoyothemes"/>
@@ -34,63 +34,43 @@
                                             <img src="{{ asset('backend/assets/images/logo-dark.png') }}" alt="logo-dark" class="mx-auto" height="28" />
                                         </a>
                                     </div>
-    
+
+                                    @if (session('status'))
+                                        <div class="alert alert-success">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger mt-3">
+                                            @foreach ($errors->all() as $error)
+                                                <div>{{ $error }}</div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+
                                     <div class="pt-0">
-                                        <form method="POST" action="{{ route('admin.login') }}" class="my-4">
+                                        <form method="POST" action="{{ route('custom.verification.verify') }}" class="my-4">
                                             @csrf
 
                                             <div class="form-group mb-3">
-                                                <label for="email" class="form-label">Email address</label>
-                                                <input class="form-control @error('email') is-invalid @enderror"
-                                                    type="email"
-                                                    id="email"
-                                                    name="email"
-                                                    value="{{ old('email') }}"
+                                                <label for="code" class="form-label">Verification Code</label>
+                                                <input class="form-control @error('code') is-invalid @enderror"
+                                                    type="text"
+                                                    id="code"
+                                                    name="code"
                                                     required
                                                     autofocus
-                                                    autocomplete="username"
-                                                    placeholder="Enter your email">
-                                                @error('email')
+                                                    placeholder="Enter your code">
+                                                @error('code')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
-                                            </div>
-
-                                            <div class="form-group mb-3">
-                                                <label for="password" class="form-label">Password</label>
-                                                <input class="form-control @error('password') is-invalid @enderror"
-                                                    type="password"
-                                                    id="password"
-                                                    name="password"
-                                                    required
-                                                    autocomplete="current-password"
-                                                    placeholder="Enter your password">
-                                                @error('password')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-
-                                            <div class="form-group d-flex mb-3">
-                                                <div class="col-sm-6">
-                                                    <div class="form-check">
-                                                        <input type="checkbox"
-                                                            class="form-check-input"
-                                                            id="remember_me"
-                                                            name="remember"
-                                                            {{ old('remember') ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="remember_me">Remember me</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 text-end">
-                                                    @if (Route::has('password.request'))
-                                                        <a class="text-muted fs-14" href="{{ route('password.request') }}">Forgot password?</a>
-                                                    @endif
-                                                </div>
                                             </div>
 
                                             <div class="form-group mb-0 row">
                                                 <div class="col-12">
                                                     <div class="d-grid">
-                                                        <button class="btn btn-primary" type="submit">Log In</button>
+                                                        <button class="btn btn-primary" type="submit">Verify</button>
                                                     </div>
                                                 </div>
                                             </div>
