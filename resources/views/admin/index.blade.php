@@ -229,6 +229,7 @@
         <!-- End Monthly Sales -->
 
     </div> <!-- container-fluid -->
+    
 </div> <!-- content -->
 
 @endsection

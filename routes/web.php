@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,8 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
 
 Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
 
@@ -28,3 +27,9 @@ Route::post('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin
 Route::get('/verify', [AdminController::class, 'ShowVerification'])->name('custom.verification.form');
 
 Route::post('/verify', [AdminController::class, 'VerificationVerify'])->name('custom.verification.verify');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
+    Route::post('/profile/store', [AdminController::class, 'ProfileStore'])->name('profile.store');
+    Route::post('/admin/password/update', [AdminController::class, 'PasswordUpdate'])->name('admin.password.update');
+});

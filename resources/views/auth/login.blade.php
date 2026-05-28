@@ -18,6 +18,9 @@
         <!-- Icons -->
         <link href="{{ asset('backend/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
+        <!-- Toastr CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     </head>
 
     <body class="bg-white">
@@ -36,7 +39,7 @@
                                     </div>
     
                                     <div class="pt-0">
-                                        <form method="POST" action="{{ route('admin.login') }}" class="my-4">
+                                        <form method="POST" action="{{ route('login') }}" class="my-4">
                                             @csrf
 
                                             <div class="form-group mb-3">
@@ -133,6 +136,29 @@
 
         <!-- App js-->
         <script src="{{ asset('backend/assets/js/app.js') }}"></script>
+
+        <!-- Toastr Js-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+        <script>
+            @if(Session::has('message'))
+                var type = "{{ Session::get('alert-type', 'info') }}";
+                switch(type) {
+                    case 'info':
+                        toastr.info("{{ Session::get('message') }}");
+                        break;
+                    case 'success':
+                        toastr.success("{{ Session::get('message') }}");
+                        break;
+                    case 'warning':
+                        toastr.warning("{{ Session::get('message') }}");
+                        break;
+                    case 'error':
+                        toastr.error("{{ Session::get('message') }}");
+                        break;
+                }
+            @endif
+        </script>
         
     </body>
 </html>
