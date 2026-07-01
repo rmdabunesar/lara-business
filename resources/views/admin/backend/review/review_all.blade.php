@@ -44,7 +44,7 @@
                                     <td>{{ Str::limit($item->message, 50, '...') }}</td>
                                     <td>
                                         <a href="{{ route('edit.review', $item->id) }}" class="btn btn-success btn-sm me-1">Edit</a>
-                                        <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="{{ route('delete.review', $item->id) }}" data-id="{{ $item->id }}" class="btn btn-danger btn-sm delete-review">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -60,3 +60,40 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    $(document).on('click', '.delete-review', function(e) {
+        e.preventDefault();
+        var reviewId = $(this).data('id');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+
+            $.ajax({
+                url: "{{ route('delete.review', ':id') }}".replace(':id', reviewId),
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: reviewId
+                },
+                success: function() {
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Review has been deleted.',
+                        icon: 'success'
+                    }).then(() => location.reload());
+                }
+            });
+        });
+    });
+</script>
+@endpush

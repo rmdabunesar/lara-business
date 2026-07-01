@@ -96,4 +96,21 @@ class ReviewController extends Controller
 
         return redirect()->route('all.review')->with($notification);
     }
+
+    public function DeleteReview( $id) {
+        $review = Review::findOrFail($id);
+
+        if ($review->image && file_exists(public_path($review->image))) {
+            @unlink(public_path($review->image));
+        }
+
+        $review->delete();
+
+        $notification = [
+            'message'    => 'Review Deleted Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('all.review')->with($notification);
+    }
 }

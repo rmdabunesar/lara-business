@@ -89,7 +89,10 @@
         <!-- dataTables.bootstrap5 -->
         <script src="{{ asset('backend/assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
         <script src="{{ asset('backend/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-        
+
+        {{-- sweetalert2 --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <!-- Datatable Demo App Js -->
         <script src="{{ asset('backend/assets/js/pages/datatable.init.js') }}"></script>
 
@@ -97,6 +100,8 @@
         <script src="{{ asset('backend/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
         <script src="{{ asset('backend/assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
         
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- App js-->
         <script src="{{ asset('backend/assets/js/app.js') }}"></script>
 
