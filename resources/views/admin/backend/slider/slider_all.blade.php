@@ -7,13 +7,13 @@
     <div class="container-xxl">
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">All Review</h4>
+                <h4 class="fs-18 fw-semibold m-0">All Slider</h4>
             </div>
 
             <div class="text-end">
                 <ol class="breadcrumb m-0 py-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Components</a></li>
-                    <li class="breadcrumb-item active">Review</li>
+                    <li class="breadcrumb-item active">Slider</li>
                 </ol>
             </div>
         </div>
@@ -27,24 +27,24 @@
                             <thead>
                             <tr>
                                 <th>Sl</th>
-                                <th>Name</th>
-                                <th>Position</th>
+                                <th>Title</th>
+                                <th>Description</th>
                                 <th>Image</th>
-                                <th>Message</th>
+                                <th>Link</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach ( $review as $key=>$item)
+                                @foreach ( $slider as $key=>$item)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td>{{$item->name}}</td>
-                                    <td>{{$item->position}}</td>
+                                    <td>{{$item->title}}</td>
+                                    <td>{{$item->description}}</td>
                                     <td><img src="{{ asset($item->image) }}" style="width: 60px; height: 60px"></td>
-                                    <td>{{ Str::limit($item->message, 50, '...') }}</td>
+                                    <td>{{$item->link}}</td>
                                     <td>
-                                        <a href="{{ route('edit.review', $item->id) }}" class="btn btn-success btn-sm me-1">Edit</a>
-                                        <a href="{{ route('delete.review', $item->id) }}" data-id="{{ $item->id }}" class="btn btn-danger btn-sm delete-review">Delete</a>
+                                        <a href="{{ route('edit.slider', $item->id) }}" class="btn btn-success btn-sm me-1">Edit</a>
+                                        <a href="{{ route('delete.slider', $item->id) }}" data-id="{{ $item->id }}" class="btn btn-danger btn-sm delete-slider">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -79,16 +79,16 @@
             if (!result.isConfirmed) return;
 
             $.ajax({
-                url: "{{ route('delete.review', ':id') }}".replace(':id', reviewId),
+                url: "{{ route('delete.slider', ':id') }}".replace(':id', sliderId),
                 method: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    id: reviewId
+                    id: sliderId
                 },
                 success: function() {
                     Swal.fire({
                         title: 'Deleted!',
-                        text: 'Review has been deleted.',
+                        text: 'Slider has been deleted.',
                         icon: 'success'
                     }).then(() => location.reload());
                 }

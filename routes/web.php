@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\ReviewController;
+use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,14 +36,24 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/password/update', [AdminController::class, 'PasswordUpdate'])->name('admin.password.update');
 });
 
-
 Route::middleware('auth')->group(function () {
-    Route::controller(ReviewController::class)->group(function() {
+    Route::controller(ReviewController::class)->group(function () {
         Route::get('/all/review', 'AllReview')->name('all.review');
         Route::get('/add/review', 'AddReview')->name('add.review');
         Route::post('/store/review', 'StoreReview')->name('store.review');
         Route::get('/edit/review/{id}', 'EditReview')->name('edit.review');
         Route::post('/update/review', 'UpdateReview')->name('update.review');
         Route::post('/delete/review/{id}', 'DeleteReview')->name('delete.review');
-    }) ;
+    });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::controller(SliderController::class)->group(function () {
+        Route::get('/all/slider', 'AllSlider')->name('all.slider');
+        Route::get('/add/slider', 'AddSlider')->name('add.slider');
+        Route::post('/store/slider', 'StoreSlider')->name('store.slider');
+        Route::get('/edit/slider/{id}', 'EditSlider')->name('edit.slider');
+        Route::post('/update/slider', 'UpdateSlider')->name('update.slider');
+        Route::post('/delete/slider/{id}', 'DeleteSlider')->name('delete.slider');
+    });
 });
