@@ -1,6 +1,5 @@
 @extends('admin.admin_master')
 @section('admin')
-
     <div class="content">
 
         <!-- Start Content-->
@@ -8,7 +7,7 @@
 
             <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
                 <div class="flex-grow-1">
-                    <h4 class="fs-18 fw-semibold m-0">Add Slider</h4>
+                    <h4 class="fs-18 fw-semibold m-0">Get Slider</h4>
                 </div>
 
                 <div class="text-end">
@@ -31,45 +30,58 @@
                                             <div class="card-header">
                                                 <div class="row align-items-center">
                                                     <div class="col">
-                                                        <h4 class="card-title mb-0">Add Slider</h4>
+                                                        <h4 class="card-title mb-0">Get Slider</h4>
                                                     </div><!--end col-->
                                                 </div>
                                             </div>
 
-                                            <form action="{{ route('store.slider') }}" method="POST" enctype="multipart/form-data">
+                                            <form action="{{ route('update.slider') }}" method="POST"
+                                                enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="id" value="{{ optional($slider)->id }}">
 
                                                 <div class="card-body">
 
                                                     <div class="mb-3">
                                                         <label class="form-label">Title</label>
-                                                        <input type="text" name="title" class="form-control" value="{{ old('title') }}">
+                                                        <input type="text" name="title" class="form-control"
+                                                            value="{{ old('title', optional($slider)->title) }}">
                                                     </div>
 
                                                     <div class="mb-3">
                                                         <label class="form-label">Description</label>
                                                         <div class="input-group">
-                                                            <input type="text" name="description" class="form-control" value="{{ old('description') }}">
+                                                            <input type="text" name="description" class="form-control"
+                                                                value="{{ old('description', optional($slider)->description) }}">
                                                         </div>
                                                     </div>
 
                                                     <div class="mb-3">
                                                         <label class="form-label">Link</label>
                                                         <div class="input-group">
-                                                            <input type="url" name="link" class="form-control" value="{{ old('link') }}">
+                                                            <input type="url" name="link" class="form-control"
+                                                                value="{{ old('link', optional($slider)->link) }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Button Text</label>
+                                                        <div class="input-group">
+                                                            <input type="text" name="button_text" class="form-control"
+                                                                value="{{ old('button_text', optional($slider)->button_text) }}">
                                                         </div>
                                                     </div>
 
                                                     <div class="mb-3">
                                                         <label class="form-label">Image</label>
-                                                        <input type="file" name="photo" id="image" class="form-control">
+                                                        <input type="file" name="photo" id="image"
+                                                            class="form-control">
                                                     </div>
 
                                                     <div class="mb-3">
                                                         <label class="form-label"></label>
-                                                        <img src="{{ asset('upload/no_image.jpg') }}"
-                                                            id="showImage"
-                                                            class="rounded-circle avatar-xxl img-thumbnail"
+                                                        <img src="{{ !empty(optional($slider)->image) ? asset(optional($slider)->image) : asset('upload/no_image.jpg') }}"
+                                                            id="showImage" class="rounded-circle avatar-xxl img-thumbnail"
                                                             alt="Slider Image">
                                                     </div>
 
@@ -106,5 +118,4 @@
             });
         </script>
     @endpush
-
 @endsection

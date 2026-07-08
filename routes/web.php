@@ -3,40 +3,34 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\ReviewController;
 use App\Http\Controllers\Backend\SliderController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home.index');
-});
+// ---------- Public ----------
+Route::get('/', [HomeController::class, 'Index'])->name('home');
 
-Route::get('/dashboard', function () {
-    return view('admin.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
+// ---------- Auth scaffolding ----------
 require __DIR__ . '/auth.php';
 
-Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
-
-Route::post('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
-
 Route::get('/verify', [AdminController::class, 'ShowVerification'])->name('custom.verification.form');
-
 Route::post('/verify', [AdminController::class, 'VerificationVerify'])->name('custom.verification.verify');
 
-Route::middleware('auth')->group(function () {
+Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
+Route::post('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
+
+// ---------- Authenticated ----------
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('admin.index');
+    })->name('dashboard');
+
+    // Profile
     Route::get('/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
     Route::post('/profile/store', [AdminController::class, 'ProfileStore'])->name('profile.store');
     Route::post('/admin/password/update', [AdminController::class, 'PasswordUpdate'])->name('admin.password.update');
-});
 
-Route::middleware('auth')->group(function () {
+    // Reviews
     Route::controller(ReviewController::class)->group(function () {
         Route::get('/all/review', 'AllReview')->name('all.review');
         Route::get('/add/review', 'AddReview')->name('add.review');
@@ -45,15 +39,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/update/review', 'UpdateReview')->name('update.review');
         Route::post('/delete/review/{id}', 'DeleteReview')->name('delete.review');
     });
-});
 
-Route::middleware('auth')->group(function () {
+    // Slider
     Route::controller(SliderController::class)->group(function () {
-        Route::get('/all/slider', 'AllSlider')->name('all.slider');
-        Route::get('/add/slider', 'AddSlider')->name('add.slider');
-        Route::post('/store/slider', 'StoreSlider')->name('store.slider');
-        Route::get('/edit/slider/{id}', 'EditSlider')->name('edit.slider');
+        Route::get('/get/slider', 'GetSlider')->name('get.slider');
         Route::post('/update/slider', 'UpdateSlider')->name('update.slider');
-        Route::post('/delete/slider/{id}', 'DeleteSlider')->name('delete.slider');
+        Route::post('/edit/slider', 'EditSlider')->name('edit.slider');
+        Route::post('/edit/title', 'EditTitle')->name('edit.title');
     });
 });

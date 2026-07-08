@@ -5,7 +5,7 @@
         <div id="sidebar-menu">
 
             <div class="logo-box">
-                <a href="index.html" class="logo logo-light">
+                <a href="{{ route('home') }}" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="" height="22">
                     </span>
@@ -13,7 +13,7 @@
                         <img src="{{ asset('backend/assets/images/logo-light.png') }}" alt="" height="24">
                     </span>
                 </a>
-                <a href="index.html" class="logo logo-dark">
+                <a href="{{ route('home') }}" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="" height="22">
                     </span>
@@ -63,10 +63,7 @@
                     <div class="collapse" id="sidebarError">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="{{ route('all.slider') }}" class="tp-link">All Slider</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('add.slider') }}" class="tp-link">Add Slider</a>
+                                <a href="{{ route('get.slider') }}" class="tp-link">Get Slider</a>
                             </li>
                         </ul>
                     </div>

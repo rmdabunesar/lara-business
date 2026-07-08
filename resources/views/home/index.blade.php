@@ -28,7 +28,7 @@
     @include('home.homelayout.reviews')
     <!-- end reviews -->
 
-    @include('home.homelayout.faq')
+    @include('home.homelayout.faqs')
     <div class="lonyo-content-shape3">
         <img src="{{ asset('frontend/assets/images/shape/shape2.svg') }}" alt="">
     </div>
