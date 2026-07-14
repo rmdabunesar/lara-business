@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\ReviewController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\HomeController;
@@ -46,5 +47,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/update/slider', 'UpdateSlider')->name('update.slider');
         Route::post('/edit/slider', 'EditSlider')->name('edit.slider');
         Route::post('/edit/title', 'EditTitle')->name('edit.title');
+    });
+
+      // Features
+    Route::controller(BackendHomeController::class)->group(function () {
+        Route::get('/all/feature', 'AllFeature')->name('all.feature');
+        Route::get('/add/feature', 'AddFeature')->name('add.feature');
+        Route::post('/store/feature', 'StoreFeature')->name('store.feature');
+        Route::get('/edit/feature/{id}', 'EditFeature')->name('edit.feature');
+        Route::post('/update/feature', 'UpdateFeature')->name('update.feature');
+        Route::post('/delete/feature/{id}', 'DeleteFeature')->name('delete.feature');
     });
 });

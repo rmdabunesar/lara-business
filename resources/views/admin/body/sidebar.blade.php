@@ -37,12 +37,12 @@
                 <li class="menu-title">Pages</li>
 
                 <li>
-                    <a href="#sidebarAuth" data-bs-toggle="collapse">
+                    <a href="#review" data-bs-toggle="collapse">
                         <i data-feather="users"></i>
                         <span> Review Setup </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarAuth">
+                    <div class="collapse" id="review">
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{ route('all.review') }}" class="tp-link">All Review</a>
@@ -55,12 +55,12 @@
                 </li>
 
                 <li>
-                    <a href="#sidebarError" data-bs-toggle="collapse">
+                    <a href="#slider" data-bs-toggle="collapse">
                         <i data-feather="alert-octagon"></i>
                         <span> Slider Setup </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarError">
+                    <div class="collapse" id="slider">
                         <ul class="nav-second-level">
                             <li>
                                 <a href="{{ route('get.slider') }}" class="tp-link">Get Slider</a>
@@ -72,18 +72,18 @@
                 <li class="menu-title mt-2">General</li>
 
                 <li>
-                    <a href="#sidebarBaseui" data-bs-toggle="collapse">
+                    <a href="#feature" data-bs-toggle="collapse">
                         <i data-feather="package"></i>
-                        <span> Components </span>
+                        <span> Features Setup </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarBaseui">
+                    <div class="collapse" id="feature">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="ui-accordions.html" class="tp-link">Accordions</a>
+                                <a href="{{ route('all.feature') }}" class="tp-link">All Features</a>
                             </li>
                             <li>
-                                <a href="ui-alerts.html" class="tp-link">Alerts</a>
+                                <a href="{{ route('add.feature') }}" class="tp-link">Add Features</a>
                             </li>
                         </ul>
                     </div>

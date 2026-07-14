@@ -1,5 +1,8 @@
 @php
-    $slider = \App\Models\Slider::latest()->first();
+    $slider = \App\Models\Slider::first();
+    // No slider row exists until an admin first opens the backend slider page,
+    // so inline editing stays off until there is a record to update.
+    $editable = auth()->check() && $slider;
 @endphp
 
 <div class="lonyo-hero-section light-bg">
@@ -7,24 +10,24 @@
         <div class="row">
             <div class="col-lg-7 d-flex align-items-center">
                 <div class="lonyo-hero-content" data-aos="fade-up" data-aos-duration="700">
-                    <h1 id="slider-title" contenteditable="{{ auth()->check() ? 'true' : 'false' }}"
-                        data-id="{{ $slider->id }}" data-field="title" class="hero-title">
-                        {{ $slider->title ?? 'Manage your finances more effectively' }}</h1>
-                    <p id="slider-description" contenteditable="{{ auth()->check() ? 'true' : 'false' }}"
-                        data-id="{{ $slider->id }}" data-field="description" class="text">
-                        {{ $slider->description ?? 'Track your daily finances automatically. Manage your money in a friendly & flexible way, making it easy to spend guilt-free.' }}
+                    <h1 id="slider-title" contenteditable="{{ $editable ? 'true' : 'false' }}"
+                        data-id="{{ $slider?->id }}" data-field="title" class="hero-title">
+                        {{ $slider?->title ?? 'Manage your finances more effectively' }}</h1>
+                    <p id="slider-description" contenteditable="{{ $editable ? 'true' : 'false' }}"
+                        data-id="{{ $slider?->id }}" data-field="description" class="text">
+                        {{ $slider?->description ?? 'Track your daily finances automatically. Manage your money in a friendly & flexible way, making it easy to spend guilt-free.' }}
                     </p>
                     <div class="mt-50" data-aos="fade-up" data-aos-duration="900">
-                        <a href="{{ $slider->link ?? url('/register') }}" id="slider-button"
-                            contenteditable="{{ auth()->check() ? 'true' : 'false' }}" data-id="{{ $slider->id }}"
+                        <a href="{{ $slider?->link ?? url('/register') }}" id="slider-button"
+                            contenteditable="{{ $editable ? 'true' : 'false' }}" data-id="{{ $slider?->id }}"
                             data-field="button_text"
-                            class="lonyo-default-btn hero-btn">{{ $slider->button_text ?? 'Learn More' }}</a>
+                            class="lonyo-default-btn hero-btn">{{ $slider?->button_text ?? 'Learn More' }}</a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-5">
                 <div class="lonyo-hero-thumb" data-aos="fade-left" data-aos-duration="700">
-                    <img src="{{ isset($slider->image) ? asset($slider->image) : asset('frontend/assets/images/v1/hero-thumb.png') }}"
+                    <img src="{{ $slider?->image ? asset($slider->image) : asset('frontend/assets/images/v1/hero-thumb.png') }}"
                         alt="">
                     <div class="lonyo-hero-shape">
                         <img src="{{ asset('frontend/assets/images/shape/hero-shape1.svg') }}" alt="">
@@ -53,7 +56,7 @@
             formData.append('title', title.innerText.trim());
             formData.append('description', description.innerText.trim());
             formData.append('button_text', button.innerText.trim());
-            formData.append('link', @json($slider->link ?? ''));
+            formData.append('link', @json($slider?->link ?? ''));
 
             fetch('{{ route('update.slider') }}', {
                 method: 'POST',
