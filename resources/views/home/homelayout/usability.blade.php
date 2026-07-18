@@ -3,8 +3,12 @@
         <div class="row">
             <div class="col-lg-5">
                 <div class="lonyo-video-thumb">
-                    <img src="{{ asset('frontend/assets/images/v1/video-thumb.png') }}" alt="">
-                    <a class="play-btn video-init" href="https://www.youtube.com/watch?v=fgZc7mAYIY8">
+                    @if (!empty(optional($usabilities)->thumbnail))
+                        <img src="{{ asset(optional($usabilities)->thumbnail) }}" alt="Usability Thumbnail">
+                    @else
+                        <img src="{{ asset('frontend/assets/images/v1/video-thumb.png') }}" alt="">
+                    @endif
+                    <a class="play-btn video-init" href="{{ optional($usabilities)->youtube_url ?: 'https://www.youtube.com/watch?v=fgZc7mAYIY8' }}">
                         <img src="{{ asset('frontend/assets/images/v1/play-icon.svg') }}" alt="">
                         <div class="waves wave-1"></div>
                         <div class="waves wave-2"></div>
@@ -14,12 +18,19 @@
             </div>
             <div class="col-lg-7 d-flex align-items-center">
                 <div class="lonyo-default-content lonyo-video-section pl-50" data-aos="fade-up" data-aos-duration="500">
-                    <h2>Its usability is simple and intuitive for users</h2>
-                    <p>It's a cloud-based accounting tool ideal for individuals & businesses to easily manage finances,
-                        invoices & payroll. Unlock the 3-step path to enhanced financial control.</p>
-                    <div class="mt-50" data-aos="fade-up" data-aos-duration="700">
-                        <a class="lonyo-default-btn video-btn" href="contact-us.html">Download the app</a>
-                    </div>
+                    <h2>{{ optional($usabilities)->title ?: 'Its usability is simple and intuitive for users' }}</h2>
+                    <p>{{ optional($usabilities)->description ?: "It's a cloud-based accounting tool ideal for individuals & businesses to easily manage finances, invoices & payroll. Unlock the 3-step path to enhanced financial control." }}</p>
+                    @if (optional($usabilities)->button_text || optional($usabilities)->button_url)
+                        <div class="mt-50" data-aos="fade-up" data-aos-duration="700">
+                            <a class="lonyo-default-btn video-btn" href="{{ optional($usabilities)->button_url ?: '#' }}">
+                                {{ optional($usabilities)->button_text ?: 'Download the app' }}
+                            </a>
+                        </div>
+                    @else
+                        <div class="mt-50" data-aos="fade-up" data-aos-duration="700">
+                            <a class="lonyo-default-btn video-btn" href="#">Download the app</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

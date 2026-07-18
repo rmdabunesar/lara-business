@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Slider;
+use App\Models\Usability;
 
 class HomeController extends Controller
 {
@@ -12,7 +13,8 @@ class HomeController extends Controller
     public function Index()
     {
         $sliders = Slider::latest()->get();
+        $usabilities = Usability::first();
 
-        return view('home.index', compact('sliders'));
+        return view('home.index', compact('sliders', 'usabilities'));
     }
 }

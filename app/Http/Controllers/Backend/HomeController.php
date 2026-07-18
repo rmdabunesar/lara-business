@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use App\Models\Usability;
 
 class HomeController extends Controller
 {
@@ -141,6 +142,12 @@ class HomeController extends Controller
         return view('admin.backend.clarifies.clarifies_all', compact('clarifies'));
     }
 
+    // Show the form for adding a new clarifies entry (placeholder / redirect to all).
+    public function AddClarifies()
+    {
+        return redirect()->route('all.clarifies');
+    }
+
     // Create or update the clarifies entry.
     public function UpdateClarifies(Request $request)
     {
@@ -148,6 +155,21 @@ class HomeController extends Controller
 
         if (! $clarifies) {
             $clarifies = new Clarifies();
+        }
+
+        // Handle inline AJAX update
+        if ($request->ajax() || $request->has('field')) {
+            $field = $request->input('field');
+            $value = $request->input('value');
+
+            if (in_array($field, ['title', 'description'])) {
+                $clarifies->$field = $value;
+                $clarifies->save();
+
+                return response()->json(['success' => true]);
+            }
+
+            return response()->json(['success' => false, 'message' => 'Invalid field']);
         }
 
         $data = [
@@ -189,21 +211,95 @@ class HomeController extends Controller
         return redirect()->route('all.clarifies')->with($notification);
     }
 
-    // Edit an existing clarifies entry.
-    public function EditClarifies(Request $request)
+    // Display all usabilities in the admin listing view.
+    public function GetUsabilities()
     {
-        $clarifies = Clarifies::findOrFail($request->id);
+        $usabilities = Usability::first();
 
-        $field = $request->input('field');
-        $value = $request->input('value');
-
-        if (in_array($field, ['title', 'description'])) {
-            $clarifies->$field = $value;
-            $clarifies->save();
-
-            return response()->json(['success' => true]);
+        if (! $usabilities) {
+            $usabilities = Usability::create([
+                'title'       => null,
+                'description' => null,
+                'button_text' => null,
+                'button_url'  => null,
+                'youtube_url' => null,
+                'thumbnail'   => null,
+            ]);
         }
 
-        return response()->json(['success' => false, 'message' => 'Invalid field']);
+        return view('admin.backend.usabilities.usabilities_all', compact('usabilities'));
     }
+
+    // Show the form for adding a new usabilities entry (placeholder / redirect to all).
+    public function AddUsabilities()
+    {
+        return redirect()->route('all.usabilities');
+    }
+
+    // Create or update the usabilities entry.
+    public function UpdateUsabilities(Request $request)
+    {
+        $usabilities = $request->filled('id') ? Usability::find($request->id) : null;
+
+        if (! $usabilities) {
+            $usabilities = new Usability();
+        }
+
+        // Handle inline AJAX update
+        if ($request->ajax() || $request->has('field')) {
+            $field = $request->input('field');
+            $value = $request->input('value');
+
+            if (in_array($field, ['title', 'description', 'button_text', 'button_url', 'youtube_url'])) {
+                $usabilities->$field = $value;
+                $usabilities->save();
+
+                return response()->json(['success' => true]);
+            }
+
+            return response()->json(['success' => false, 'message' => 'Invalid field']);
+        }
+
+        $data = [
+            'title'       => $request->title,
+            'description' => $request->description,
+            'button_text' => $request->button_text,
+            'button_url'  => $request->button_url,
+            'youtube_url' => $request->youtube_url,
+        ];
+
+        if ($request->file('photo')) {
+            $photo = $request->file('photo');
+
+            $manager = new ImageManager(new Driver());
+
+            $name_gen = hexdec(uniqid()) . '.' . $photo->getClientOriginalExtension();
+            $uploadPath = public_path('upload/usabilities');
+
+            if (! File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true, true);
+            }
+
+            $image = $manager->decode($photo->getContent());
+            $image->resize(560, 400);
+            $image->save($uploadPath . '/' . $name_gen);
+
+            if ($usabilities->thumbnail && file_exists(public_path($usabilities->thumbnail))) {
+                @unlink(public_path($usabilities->thumbnail));
+            }
+
+            $data['thumbnail'] = 'upload/usabilities/' . $name_gen;
+        }
+
+        $usabilities->fill($data);
+        $usabilities->save();
+
+        $notification = [
+            'message'    => 'Usabilities Updated Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('all.usabilities')->with($notification);
+    }
+
 }

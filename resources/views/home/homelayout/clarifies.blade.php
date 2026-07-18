@@ -86,7 +86,7 @@
             formData.append('field', element.dataset.field);
             formData.append('value', element.innerText.trim());
 
-            fetch('{{ route('edit.clarifies') }}', {
+            fetch('{{ route('update.clarifies') }}', {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')

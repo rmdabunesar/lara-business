@@ -100,26 +100,26 @@
                             <li>
                                 <a href="{{ route('all.clarifies') }}" class="tp-link">Get Clarifies</a>
                             </li>
-                            {{-- <li>
+                            <li>
                                 <a href="{{ route('add.clarifies') }}" class="tp-link">Add Clarifies</a>
-                            </li> --}}
+                            </li>
                         </ul>
                     </div>
                 </li>
 
                 <li>
-                    <a href="#sidebarIcons" data-bs-toggle="collapse">
+                    <a href="#usabilities" data-bs-toggle="collapse">
                         <i data-feather="award"></i>
-                        <span> Icons </span>
+                        <span> Usabilities Setup </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarIcons">
+                    <div class="collapse" id="usabilities">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="icons-feather.html" class="tp-link">Feather Icons</a>
+                                <a href="{{ route('all.usabilities') }}" class="tp-link">Get Usabilities</a>
                             </li>
                             <li>
-                                <a href="icons-mdi.html" class="tp-link">Material Design Icons</a>
+                                <a href="{{ route('add.usabilities') }}" class="tp-link">Add Usabilities</a>
                             </li>
                         </ul>
                     </div>

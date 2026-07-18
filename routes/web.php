@@ -62,8 +62,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Clarifies
     Route::controller(BackendHomeController::class)->group(function () {
         Route::get('/all/clarifies', 'GetClarifies')->name('all.clarifies');
-        Route::get('/get/clarifies', 'GetClarifies')->name('get.clarifies');
         Route::post('/update/clarifies', 'UpdateClarifies')->name('update.clarifies');
-        Route::post('/edit/clarifies', 'EditClarifies')->name('edit.clarifies');
+        Route::get('/add/clarifies', 'AddClarifies')->name('add.clarifies');
     });
+
+    // Usabilities
+    Route::controller(BackendHomeController::class)->group(function () {
+        Route::get('/all/usabilities', 'GetUsabilities')->name('all.usabilities');
+        Route::post('/update/usabilities', 'UpdateUsabilities')->name('update.usabilities');
+        Route::get('/add/usabilities', 'AddUsabilities')->name('add.usabilities');
+    });
+
 });
