@@ -1,17 +1,20 @@
+@php
+    $clarifies = \App\Models\Clarifies::firstOrCreate(['id' => 1]);
+@endphp
 <section class="lonyo-section-padding6">
     <div class="container">
         <div class="row">
             <div class="col-lg-5">
                 <div class="lonyo-content-thumb" data-aos="fade-up" data-aos-duration="700">
-                    <img src="{{ asset('frontend/assets/images/v1/content-thumb.png') }}" alt="">
+                    <img src="{{ !empty($clarifies->image) ? asset($clarifies->image) : asset('frontend/assets/images/v1/content-thumb.png') }}" alt="">
                 </div>
             </div>
             <div class="col-lg-7 d-flex align-items-center">
-                <div classf="lonyo-default-content pl-50" data-aos="fade-up" data-aos-duration="700">
-                    <h2>It clarifies all strategic financial decisions</h2>
-                    <p class="data">With this tool, you can say goodbye to overspending, stay on track with your
-                        savings goals, and say goodbye to financial worries. Get ready for a clearer view of your
-                        finances like never before!</p>
+                <div class="lonyo-default-content pl-50" data-aos="fade-up" data-aos-duration="700">
+                    <h2 id="clarifies-title" contenteditable="{{ auth()->check() ? 'true' : 'false' }}"
+                        data-id="{{ $clarifies->id }}" data-field="title">{{ $clarifies->title ?? 'It clarifies all strategic financial decisions' }}</h2>
+                    <p class="data" id="clarifies-description" contenteditable="{{ auth()->check() ? 'true' : 'false' }}"
+                        data-id="{{ $clarifies->id }}" data-field="description">{{ $clarifies->description ?? 'With this tool, you can say goodbye to overspending, stay on track with your savings goals, and say goodbye to financial worries. Get ready for a clearer view of your finances like never before!' }}</p>
                     <div class="lonyo-faq-wrap1 mt-50">
                         <div class="lonyo-faq-item open" data-aos="fade-up" data-aos-duration="500">
                             <div class="lonyo-faq-header">
@@ -64,3 +67,45 @@
         </div>
     </div>
 </section>
+
+{{-- CSRF Token --}}
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const title = document.getElementById('clarifies-title');
+        const description = document.getElementById('clarifies-description');
+
+        if (!title || !description) return;
+
+        function saveChanges(element) {
+            if (element.getAttribute('contenteditable') !== 'true') return;
+
+            const formData = new FormData();
+            formData.append('id', element.dataset.id);
+            formData.append('field', element.dataset.field);
+            formData.append('value', element.innerText.trim());
+
+            fetch('{{ route('edit.clarifies') }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            });
+        }
+
+        [title, description].forEach(element => {
+            element.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    element.blur();
+                }
+            });
+
+            element.addEventListener('blur', function() {
+                saveChanges(element);
+            });
+        });
+    });
+</script>
