@@ -7,7 +7,7 @@
                 @endphp
                 <div class="col-xl-8 col-lg-8">
                     <h2 id="reviews-title" contenteditable="{{ auth()->check() ? 'true' : 'false' }}"
-                        data-id="{{ $title->id }}" data-field="reviews">{{ $title->reviews }}</h2>
+                        data-id="{{ $title->id }}" data-field="reviews">{{ $title->reviews ?? 'What Our Customers Say' }}</h2>
                 </div>
                 <div class="col-xl-4 col-lg-4 d-flex align-items-center justify-content-end">
                     <div class="lonyo-title-btn">
@@ -29,16 +29,16 @@
                     <img src="{{ asset('frontend/assets/images/shape/star.svg') }}" alt="">
                 </div>
                 <div class="lonyo-t-text">
-                    <p>{{ $item->message }}</p>
+                    <p>{{ $item->message ?? 'Excellent tool for managing finances. Very simple and intuitive.' }}</p>
                 </div>
                 <div class="lonyo-t-author">
                     <div class="lonyo-t-author-thumb">
-                        <img src="{{ $item->image ? asset($item->image) : asset('frontend/assets/images/v1/img7.png') }}"
+                        <img src="{{ $item->image ? asset($item->image) : 'https://placehold.co/100x100?text=Author' }}"
                             alt="">
                     </div>
                     <div class="lonyo-t-author-data">
-                        <p>{{ $item->name }}</p>
-                        <span>{{ $item->position }}</span>
+                        <p>{{ $item->name ?? 'John Doe' }}</p>
+                        <span>{{ $item->position ?? 'Financial Advisor' }}</span>
                     </div>
                 </div>
             </div>

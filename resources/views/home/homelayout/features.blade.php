@@ -5,7 +5,7 @@
         @endphp
         <div class="lonyo-section-title center">
             <h2 id="features-title" contenteditable="{{ auth()->check() ? 'true' : 'false' }}"
-                data-id="{{ $title->id }}" data-field="features">{{ $title->features }}</h2>
+                data-id="{{ $title->id }}" data-field="features">{{ $title->features ?? 'Features' }}</h2>
         </div>
         <div class="row">
 
@@ -19,12 +19,12 @@
                     <div class="lonyo-service-wrap light-bg" data-aos="fade-up"
                         data-aos-duration="{{ $durations[$loop->index % 3] }}">
                         <div class="lonyo-service-title">
-                            <h4>{{ $item->title }}</h4>
-                            <img src="{{ $item->icon ? asset($item->icon) : asset('frontend/assets/images/v1/feature1.svg') }}"
+                            <h4>{{ $item->title ?? 'Connect Your Accounts' }}</h4>
+                            <img src="{{ $item->icon ? asset($item->icon) : 'https://placehold.co/100x100?text=Feature' }}"
                                 alt="">
                         </div>
                         <div class="lonyo-service-data">
-                            <p>{{ $item->description }}</p>
+                            <p>{{ $item->description ?? 'Link your bank, credit card or investment accounts to automatically track transactions.' }}</p>
                         </div>
                     </div>
                 </div>

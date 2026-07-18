@@ -5,7 +5,7 @@
         @endphp
         <div class="lonyo-section-title center">
             <h2 id="faqs-title" contenteditable="{{ auth()->check() ? 'true' : 'false' }}" data-id="{{ $title->id }}"
-                data-field="faqs">{{ $title->faqs }}</h2>
+                data-field="faqs">{{ $title->faqs ?? 'Frequently Asked Questions' }}</h2>
         </div>
         <div class="lonyo-faq-shape"></div>
         <div class="lonyo-faq-wrap1">

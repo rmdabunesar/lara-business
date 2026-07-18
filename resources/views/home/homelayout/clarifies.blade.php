@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-lg-5">
                 <div class="lonyo-content-thumb" data-aos="fade-up" data-aos-duration="700">
-                    <img src="{{ !empty($clarifies->image) ? asset($clarifies->image) : asset('frontend/assets/images/v1/content-thumb.png') }}" alt="">
+                    <img src="{{ !empty($clarifies->image) ? asset($clarifies->image) : 'https://placehold.co/600x600?text=Clarifies+Image' }}" alt="">
                 </div>
             </div>
             <div class="col-lg-7 d-flex align-items-center">
