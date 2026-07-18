@@ -90,32 +90,19 @@
                 </li>
 
                 <li>
-                    <a href="widgets.html" class="tp-link">
-                        <i data-feather="aperture"></i>
-                        <span> Widgets </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#sidebarAdvancedUI" data-bs-toggle="collapse">
+                    <a href="#clarifies" data-bs-toggle="collapse">
                         <i data-feather="cpu"></i>
-                        <span> Extended UI </span>
+                        <span> Clarifies Setup </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarAdvancedUI">
+                    <div class="collapse" id="clarifies">
                         <ul class="nav-second-level">
                             <li>
-                                <a href="extended-carousel.html" class="tp-link">Carousel</a>
+                                <a href="{{ route('all.clarifies') }}" class="tp-link">Get Clarifies</a>
                             </li>
-                            <li>
-                                <a href="extended-notifications.html" class="tp-link">Notifications</a>
-                            </li>
-                            <li>
-                                <a href="extended-offcanvas.html" class="tp-link">Offcanvas</a>
-                            </li>
-                            <li>
-                                <a href="extended-range-slider.html" class="tp-link">Range Slider</a>
-                            </li>
+                            {{-- <li>
+                                <a href="{{ route('add.clarifies') }}" class="tp-link">Add Clarifies</a>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>

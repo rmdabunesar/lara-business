@@ -58,4 +58,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/update/feature', 'UpdateFeature')->name('update.feature');
         Route::post('/delete/feature/{id}', 'DeleteFeature')->name('delete.feature');
     });
+
+    // Clarifies
+    Route::controller(BackendHomeController::class)->group(function () {
+        Route::get('/all/clarifies', 'GetClarifies')->name('all.clarifies');
+        Route::get('/get/clarifies', 'GetClarifies')->name('get.clarifies');
+        Route::post('/update/clarifies', 'UpdateClarifies')->name('update.clarifies');
+        Route::post('/edit/clarifies', 'EditClarifies')->name('edit.clarifies');
+    });
 });

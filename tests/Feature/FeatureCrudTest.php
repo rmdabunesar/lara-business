@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Clarifies;
 use App\Models\User;
 use App\Models\Feature;
 use Illuminate\Http\UploadedFile;
@@ -85,4 +86,26 @@ test('delete feature removes record and its icon file', function () {
 
     expect(Feature::find($feature->id))->toBeNull();
     expect(file_exists($iconPath))->toBeFalse();
+});
+
+test('update clarifies creates a record when none exists yet', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->post(route('update.clarifies'), [
+        'title'       => 'New Clarify Title',
+        'description' => 'This was created from the form.',
+        'photo'       => UploadedFile::fake()->image('clarify.png', 300, 300),
+    ]);
+
+    $response->assertRedirect(route('all.clarifies'));
+
+    $clarify = Clarifies::first();
+    expect($clarify)->not->toBeNull();
+    expect($clarify->title)->toBe('New Clarify Title');
+    expect($clarify->image)->toStartWith('upload/clarifies/');
+    expect(file_exists(public_path($clarify->image)))->toBeTrue();
+
+    if ($clarify->image && file_exists(public_path($clarify->image))) {
+        @unlink(public_path($clarify->image));
+    }
 });
