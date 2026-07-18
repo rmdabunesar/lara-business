@@ -1,7 +1,5 @@
 @php
     $slider = \App\Models\Slider::first();
-    // No slider row exists until an admin first opens the backend slider page,
-    // so inline editing stays off until there is a record to update.
     $editable = auth()->check() && $slider;
 @endphp
 

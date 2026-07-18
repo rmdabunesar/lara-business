@@ -73,4 +73,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/add/usabilities', 'AddUsabilities')->name('add.usabilities');
     });
 
+    // Faqs
+    Route::controller(BackendHomeController::class)->group(function () {
+        Route::get('/all/faqs', 'AllFaqs')->name('all.faqs');
+        Route::get('/add/faqs', 'AddFaqs')->name('add.faqs');
+        Route::post('/store/faqs', 'StoreFaqs')->name('store.faqs');
+        Route::get('/edit/faqs/{id}', 'EditFaqs')->name('edit.faqs');
+        Route::post('/update/faqs', 'UpdateFaqs')->name('update.faqs');
+        Route::post('/delete/faqs/{id}', 'DeleteFaqs')->name('delete.faqs');
+    });
+
 });

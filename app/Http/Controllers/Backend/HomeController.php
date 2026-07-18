@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use App\Models\Usability;
+use App\Models\Faqs;
 
 class HomeController extends Controller
 {
@@ -300,6 +301,73 @@ class HomeController extends Controller
         ];
 
         return redirect()->route('all.usabilities')->with($notification);
+    }
+
+    // AllFaqs
+    public function AllFaqs()
+    {
+        $faqs = Faqs::all();
+
+        return view('admin.backend.faqs.faq_all', compact('faqs'));
+    }
+
+    // AddFaqs
+    public function AddFaqs()
+    {
+        return view('admin.backend.faqs.add_faq');
+    }
+
+    // StoreFaqs
+    public function StoreFaqs(Request $request)
+    {
+        $faqs = new Faqs();
+        $faqs->question = $request->question;
+        $faqs->answer = $request->answer;
+        $faqs->save();
+
+        $notification = [
+            'message'    => 'FAQs Added Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('all.faqs')->with($notification);
+    }   
+
+    // EditFaqs
+    public function EditFaqs($id)
+    {
+        $faqs = Faqs::find($id);
+
+        return view('admin.backend.faqs.edit_faq', compact('faqs'));
+    }
+
+    // UpdateFaqs
+    public function UpdateFaqs(Request $request)
+    {
+        $faqs = Faqs::find($request->id);
+        $faqs->question = $request->question;
+        $faqs->answer = $request->answer;
+        $faqs->save();
+
+        $notification = [
+            'message'    => 'FAQs Updated Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('all.faqs')->with($notification);
+    }
+
+    // DeleteFaqs
+    public function DeleteFaqs($id)
+    {
+        Faqs::where('id', $id)->delete();
+
+        $notification = [
+            'message'    => 'FAQs Deleted Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()->route('all.faqs')->with($notification);
     }
 
 }
